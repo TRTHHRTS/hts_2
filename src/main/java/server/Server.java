@@ -59,9 +59,9 @@ public class Server {
 
         private HttpRequest request;
         private final StringBuilder buf = new StringBuilder();
-        private Map<String, UriHandlerBased> handlers = new HashMap<String, UriHandlerBased>();
+        private Map<String, UriHandlerBased> handlers = new HashMap<>();
 
-        public ServerHandler() {
+        ServerHandler() {
             if (handlers.size()==0) {
                 try {
                     for (Class c : ReflectionTools.getClasses(getClass().getPackage().getName() + ".handlers")) {
