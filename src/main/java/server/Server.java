@@ -100,7 +100,7 @@ public class Server {
                         ((LastHttpContent) msg).getDecoderResult().isSuccess()? OK : BAD_REQUEST,
                         Unpooled.copiedBuffer(buf.toString(), CharsetUtil.UTF_8)
                 );
-                response.headers().set(CONTENT_TYPE, handler!=null ? handler.getContentType() : "text/plain; charset=UTF-8");
+                response.headers().set(CONTENT_TYPE, handler != null ? handler.getContentType() : "text/plain; charset=UTF-8");
 
                 if (isKeepAlive(request)) {
                     response.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);

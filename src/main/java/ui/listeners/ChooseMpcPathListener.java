@@ -5,20 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import static ui.MainWindow.dirInput;
+import static ui.MainWindow.mpcInput;
 import static ui.MainWindow.saveProp;
 
-public class ChooseDirListener implements ActionListener {
+public class ChooseMpcPathListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JFileChooser j = new JFileChooser();
-        j.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        j.setCurrentDirectory(new File(dirInput.getText()));
+        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        j.setCurrentDirectory(new File(mpcInput.getText()));
         Integer returnVal = j.showSaveDialog(null);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             File choosedDir = j.getSelectedFile();
-            dirInput.setText(choosedDir.getAbsolutePath());
-            saveProp("init_dir", choosedDir.getAbsolutePath());
+            mpcInput.setText(choosedDir.getAbsolutePath());
+            saveProp("mpc_path", choosedDir.getAbsolutePath());
         }
     }
 }

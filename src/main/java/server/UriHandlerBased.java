@@ -2,11 +2,11 @@ package server;
 
 import io.netty.handler.codec.http.HttpRequest;
 
-public abstract class UriHandlerBased{
+public abstract class UriHandlerBased {
 
     public abstract void process(HttpRequest request, StringBuilder buff);
 
-    public String getContentType() {
+    String getContentType() {
         return "text/plain; charset=UTF-8";
     }
 }

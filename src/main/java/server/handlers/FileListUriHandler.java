@@ -52,6 +52,9 @@ public class FileListUriHandler extends UriHandlerBased {
                         }
                     }
                 }
+                if (result.isEmpty()) {
+                    currentDir = currentDir.getParentFile();
+                }
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 new ObjectOutputStream(out).writeObject(result.toArray());
                 String serialized = new String(Hex.encodeHex(out.toByteArray()));

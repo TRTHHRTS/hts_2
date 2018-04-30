@@ -3,6 +3,7 @@ package ui;
 import server.Server;
 import ui.listeners.AutostartListener;
 import ui.listeners.ChooseDirListener;
+import ui.listeners.ChooseMpcPathListener;
 import ui.listeners.RunServerBtnListener;
 
 import javax.swing.*;
@@ -26,7 +27,9 @@ public class MainWindow extends JFrame {
 
     public static JButton runBtn = new JButton("RUN SERVER");
     public static JTextField dirInput = new JTextField("", 5);
+    public static JTextField mpcInput = new JTextField("", 5);
     public static JButton chooseBtn = new JButton("...");
+    public static JButton chooseMpcBtn = new JButton("...");
     public static JLabel status = new JLabel("Server status: NOT running");
     public static JLabel settings = new JLabel("Settings..");
     public static JCheckBox autostart = new JCheckBox("Запускать сервер при запуске приложения");
@@ -55,35 +58,45 @@ public class MainWindow extends JFrame {
         );
 
         c.weightx = 0.8;
-        c.ipady = 8;
+        c.ipady = 6;
         c.gridx = 0;
         c.gridy = 1;
         this.add(dirInput, c);
         dirInput.setText(PROPS.getProperty("init_dir"));
-
         c.weightx = 0.2;
         c.gridx = 1;
         c.gridy = 1;
         this.add(chooseBtn, c);
         chooseBtn.addActionListener(new ChooseDirListener());
 
+        c.weightx = 0.8;
+        c.gridx = 0;
+        c.gridy = 2;
+        this.add(mpcInput, c);
+        mpcInput.setText(PROPS.getProperty("mpc_path"));
+        c.weightx = 0.2;
+        c.gridx = 1;
+        c.gridy = 2;
+        this.add(chooseMpcBtn, c);
+        chooseMpcBtn.addActionListener(new ChooseMpcPathListener());
+
         c.weightx = 1;
         c.gridwidth = 2;
         c.ipady = 40;
         c.gridx = 0;
-        c.gridy = 2;
+        c.gridy = 3;
         this.add(runBtn, c);
         runBtn.addActionListener(new RunServerBtnListener());
 
         c.ipady = 50;
-        c.gridy = 3;
+        c.gridy = 4;
         this.add(autostart, c);
         autostart.setSelected(Boolean.valueOf(PROPS.getProperty("autostart")));
         autostart.addActionListener(new AutostartListener());
 
         c.ipady = 60;
         c.gridx = 0;
-        c.gridy = 4;
+        c.gridy = 5;
         this.add(status, c);
 
         this.addWindowStateListener(new WindowAdapter() {
