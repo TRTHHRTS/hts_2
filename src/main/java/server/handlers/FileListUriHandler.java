@@ -10,10 +10,8 @@ import server.UriHandlerBased;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Получение списка файлов
@@ -21,6 +19,8 @@ import java.util.Map;
 @Mapped(uri = "/list")
 public class FileListUriHandler extends UriHandlerBased {
 
+    private static String[] mediaExts = {"avi", "divx", "ts", "tp", "mgp", "mpeg", "mpe", "m2t", "m2ts", "vob",
+            "ifo", "mkv", "webm", "mp4", "m4v", "mov", "fiv", "ogm", "wmv", "wmp", "ogv"};
     /** Текущая директория */
     private static File currentDir = null;
     /** Маппер, для сериализации */
@@ -42,7 +42,7 @@ public class FileListUriHandler extends UriHandlerBased {
                 File[] originalList = currentDir.listFiles();
                 if (originalList != null) {
                     for (File item : originalList) {
-                        if (!item.isHidden()) {
+                        if (!item.isHidden() && (item.isDirectory() || isMediaFile(item.getName()))) {
                             Map map = new HashMap<String, String>(){{
                                 put("name", item.getName());
                                 put("isDirectory", String.valueOf(item.isDirectory()));
@@ -62,5 +62,20 @@ public class FileListUriHandler extends UriHandlerBased {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Проверить, является ли файл медиафайлом
+     * @param filename имя файла
+     * @return true, если это медиафайл, иначе false
+     */
+    private boolean isMediaFile(String filename) {
+        String extension = "";
+        int i = filename.lastIndexOf('.');
+        if (i > 0) {
+            extension = filename.substring(i + 1);
+        }
+        String finalExtension = extension;
+        return Stream.of(mediaExts).anyMatch(x -> x.equals(finalExtension));
     }
 }
