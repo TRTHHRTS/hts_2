@@ -21,16 +21,18 @@ public class ExecFileUriHandler extends UriHandlerBased {
     @Override
     public void process(HttpRequest request, StringBuilder buff) {
         try {
-
             if (request.headers().contains("path")) {
-                //START Mpc %mpcExecutable% %fileLocation% /startpos %position%
                 String path = new String(Hex.decodeHex(request.headers().get("path")));
                 String mpcPath = MainWindow.PROPS.getProperty("mpc_path");
-                Runtime.getRuntime().exec(MessageFormat.format("\"{0}\" \"{1}\"", mpcPath, path));
+                String execString = MessageFormat.format("\"{0}\" \"{1}\"", mpcPath, path);
+                if (request.headers().contains("position")) {
+                    execString += " /startpos " + request.headers().get("position");
+                }
+                Runtime.getRuntime().exec(execString);
                 // TODO
                 System.out.println(path);
             } else {
-                throw new IllegalStateException("Отсутствует обязательный ппараметр path");
+                throw new IllegalStateException("Отсутствует обязательный параметр path");
             }
         } catch (Exception e) {
             e.printStackTrace();
