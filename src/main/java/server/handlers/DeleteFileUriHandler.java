@@ -19,8 +19,8 @@ public class DeleteFileUriHandler extends UriHandlerBased {
             if (!delete) {
                 throw new RuntimeException("Deleting file error");
             }
-        } else {
-            throw new IllegalStateException("Required request parameter 'path' not found in request object");
+            return;
         }
+        throw new IllegalStateException("Required request parameter 'path' not found in request object");
     }
 }
