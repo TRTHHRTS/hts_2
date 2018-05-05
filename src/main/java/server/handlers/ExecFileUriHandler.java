@@ -19,23 +19,17 @@ public class ExecFileUriHandler extends UriHandlerBased {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public void process(HttpRequest request, StringBuilder buff) {
-        try {
-            if (request.headers().contains("path")) {
-                String path = new String(Hex.decodeHex(request.headers().get("path")));
-                String mpcPath = MainWindow.PROPS.getProperty("mpc_path");
-                String execString = MessageFormat.format("\"{0}\" \"{1}\"", mpcPath, path);
-                if (request.headers().contains("position")) {
-                    execString += " /startpos " + request.headers().get("position");
-                }
-                Runtime.getRuntime().exec(execString);
-                // TODO
-                System.out.println(path);
-            } else {
-                throw new IllegalStateException("Отсутствует обязательный параметр path");
+    public void process(HttpRequest request, StringBuilder buff) throws Exception {
+        if (request.headers().contains("path")) {
+            String path = new String(Hex.decodeHex(request.headers().get("path")));
+            String mpcPath = MainWindow.PROPS.getProperty("mpc_path");
+            String execString = MessageFormat.format("\"{0}\" \"{1}\"", mpcPath, path);
+            if (request.headers().contains("position")) {
+                execString += " /startpos " + request.headers().get("position");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Runtime.getRuntime().exec(execString);
+            return;
         }
+        throw new IllegalStateException("Required request parameter 'path' not found in request object");
     }
 }

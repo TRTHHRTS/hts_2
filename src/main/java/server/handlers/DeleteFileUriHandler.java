@@ -11,20 +11,16 @@ import java.io.File;
 public class DeleteFileUriHandler extends UriHandlerBased {
 
     @Override
-    public void process(HttpRequest request, StringBuilder buff) {
-        try {
-            if (request.headers().contains("path")) {
-                String path = new String(Hex.decodeHex(request.headers().get("path")));
-                File file = new File(path);
-                boolean delete = file.delete();
-                if (!delete) {
-                    throw new RuntimeException("Не удалось удалить файл");
-                }
-            } else {
-                throw new IllegalStateException("Отсутствует обязательный параметр path");
+    public void process(HttpRequest request, StringBuilder buff) throws Exception {
+        if (request.headers().contains("path")) {
+            String path = new String(Hex.decodeHex(request.headers().get("path")));
+            File file = new File(path);
+            boolean delete = file.delete();
+            if (!delete) {
+                throw new RuntimeException("Deleting file error");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else {
+            throw new IllegalStateException("Required request parameter 'path' not found in request object");
         }
     }
 }

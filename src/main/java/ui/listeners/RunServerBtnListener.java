@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import static javax.swing.JOptionPane.showMessageDialog;
 import static ui.MainWindow.runBtn;
 import static ui.MainWindow.serverThread;
 import static ui.MainWindow.status;
@@ -19,7 +20,7 @@ public class RunServerBtnListener implements ActionListener {
             try {
                 server.start();
             } catch (Exception e1) {
-                JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE);
+                showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.PLAIN_MESSAGE);
             }
         };
         serverThread = new Thread(serverRunnable);

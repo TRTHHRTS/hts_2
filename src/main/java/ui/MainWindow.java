@@ -1,6 +1,5 @@
 package ui;
 
-import server.Server;
 import ui.listeners.AutostartListener;
 import ui.listeners.ChooseDirListener;
 import ui.listeners.ChooseMpcPathListener;
@@ -8,7 +7,6 @@ import ui.listeners.RunServerBtnListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
@@ -28,11 +26,11 @@ public class MainWindow extends JFrame {
     public static JButton runBtn = new JButton("RUN SERVER");
     public static JTextField dirInput = new JTextField("", 5);
     public static JTextField mpcInput = new JTextField("", 5);
-    public static JButton chooseBtn = new JButton("...");
-    public static JButton chooseMpcBtn = new JButton("...");
+    private static JButton chooseBtn = new JButton("...");
+    private static JButton chooseMpcBtn = new JButton("...");
     public static JLabel status = new JLabel("Server status: NOT running");
-    public static JLabel settings = new JLabel("Settings..");
-    public static JCheckBox autostart = new JCheckBox("Запускать сервер при запуске приложения");
+    private static JLabel settings = new JLabel("Settings..");
+    public static JCheckBox autostart = new JCheckBox("Run server after starting app");
 
     public static Thread serverThread = null;
 
@@ -108,7 +106,7 @@ public class MainWindow extends JFrame {
         });
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         MainWindow app = new MainWindow();
         app.setVisible(true);
         if (autostart.isSelected()) {

@@ -8,13 +8,13 @@ import java.util.Enumeration;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
-public class ReflectionTools {
+class ReflectionTools {
 
-    public static Class[] getClasses(String packageName)
+    static Class[] getClasses(String packageName)
             throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         Enumeration<URL> resources = classLoader.getResources(packageName.replace('.', '/'));
-        ArrayList<Class> classes = new ArrayList<Class>();
+        ArrayList<Class> classes = new ArrayList<>();
         while (resources.hasMoreElements()) {
             File directory = new File(resources.nextElement().getFile());
             if (directory.exists()) {
@@ -44,6 +44,6 @@ public class ReflectionTools {
                 }
             }
         }
-        return classes.toArray(new Class[classes.size()]);
+        return classes.toArray(new Class[0]);
     }
 }

@@ -20,6 +20,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.BAD_REQUEST;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpUtil.isKeepAlive;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public class Server {
 
@@ -47,7 +48,7 @@ public class Server {
 
     private class ServerInitializer extends ChannelInitializer<SocketChannel> {
         @Override
-        public void initChannel(SocketChannel ch) throws Exception {
+        public void initChannel(SocketChannel ch) {
             ChannelPipeline p = ch.pipeline();
             p.addLast("decoder", new HttpRequestDecoder());
             p.addLast("encoder", new HttpResponseEncoder());
@@ -77,7 +78,7 @@ public class Server {
         }
 
         @Override
-        public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+        public void channelReadComplete(ChannelHandlerContext ctx) {
             ctx.flush();
         }
 
@@ -91,7 +92,11 @@ public class Server {
                 String context = queryStringDecoder.path();
                 handler = handlers.get(context);
                 if (handler!=null) {
-                    handler.process(request, buf);
+                    try {
+                        handler.process(request, buf);
+                    } catch (Exception e) {
+                        showMessageDialog(null, e.getLocalizedMessage());
+                    }
                 }
             }
             if (msg instanceof LastHttpContent) {
@@ -111,7 +116,7 @@ public class Server {
         }
 
         @Override
-        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
             cause.printStackTrace();
             ctx.close();
         }
