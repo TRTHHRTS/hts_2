@@ -15,6 +15,7 @@ public class DeleteFileUriHandler extends UriHandlerBased {
         if (request.headers().contains("path")) {
             String path = new String(Hex.decodeHex(request.headers().get("path")));
             File file = new File(path);
+            Thread.sleep(500);
             boolean delete = file.delete();
             if (!delete) {
                 throw new RuntimeException("Deleting file error");
